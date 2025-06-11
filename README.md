@@ -33,12 +33,31 @@ php artisan migrate --seed
 
 ## Uruchomienie
 
+### Opcja 1: Lokalnie
 ```bash
 # Serwer deweloperski
 php artisan serve
+```
 
-# Lub z Docker
-docker-compose up -d
+### Opcja 2: Docker (Zalecane)
+```bash
+# Kopiuj .env.example
+cp .env.example .env
+
+# Edytuj .env dla Docker (zmień te linie):
+# DB_HOST=mysql
+# DB_DATABASE=library_db
+# DB_USERNAME=library_user
+# DB_PASSWORD=library_password
+
+# Wygeneruj klucz aplikacji
+php artisan key:generate
+
+# Uruchom kontenery
+docker compose up -d
+
+# Migracje w kontenerze
+docker compose exec app php artisan migrate --seed
 ```
 
 API dostępne pod: `http://localhost:8000`
