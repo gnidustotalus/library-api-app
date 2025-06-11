@@ -18,18 +18,15 @@ class PublisherController extends Controller
     {
         $query = Publisher::withCount('books');
 
-        // Search functionality
         if ($search = $request->get('search')) {
             $query->where('name', 'like', "%{$search}%")
                   ->orWhere('address', 'like', "%{$search}%");
         }
 
-        // Include books if requested
         if ($request->boolean('include_books')) {
             $query->with('books');
         }
 
-        // Sort options
         $sortBy = $request->get('sort_by', 'name');
         $sortDirection = $request->get('sort_direction', 'asc');
         
@@ -98,7 +95,6 @@ class PublisherController extends Controller
      */
     public function destroy(Publisher $publisher): JsonResponse
     {
-        // Check if publisher has books
         if ($publisher->books()->exists()) {
             return response()->json([
                 'message' => 'Cannot delete publisher with existing books.',
