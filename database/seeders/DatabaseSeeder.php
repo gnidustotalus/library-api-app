@@ -14,11 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            AuthorSeeder::class,
+            PublisherSeeder::class,
+            CategorySeeder::class,
+            BookSeeder::class, // Must be last due to foreign keys
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->command->info('Library database seeded successfully!');
     }
 }
