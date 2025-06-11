@@ -43,37 +43,68 @@ docker-compose up -d
 
 API dostępne pod: `http://localhost:8000`
 
+## Autentykacja
+
+API używa **Laravel Sanctum** dla autoryzacji. POST/PUT/DELETE wymagają tokenu.
+
+### Login
+```bash
+POST /api/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin@example.com",
+    "password": "password123"
+}
+```
+
+### Użycie tokenu
+```bash
+Authorization: Bearer YOUR_TOKEN_HERE
+```
+
+### Testowy użytkownik
+- **Email:** admin@example.com
+- **Password:** password123
+
 ## Endpointy
+
+### Authentication
+- `POST /api/auth/login` - Logowanie
+- `POST /api/auth/logout` - Wylogowanie (🔒)
+- `GET /api/auth/user` - Info o użytkowniku (🔒)
 
 ### Authors
 - `GET /api/authors` - Lista autorów
-- `POST /api/authors` - Nowy autor
+- `POST /api/authors` - Nowy autor (🔒)
 - `GET /api/authors/{id}` - Szczegóły autora
-- `PUT /api/authors/{id}` - Aktualizacja
-- `DELETE /api/authors/{id}` - Usunięcie
+- `PUT /api/authors/{id}` - Aktualizacja (🔒)
+- `DELETE /api/authors/{id}` - Usunięcie (🔒)
 
 ### Publishers
 - `GET /api/publishers` - Lista wydawców
-- `POST /api/publishers` - Nowy wydawca
+- `POST /api/publishers` - Nowy wydawca (🔒)
 - `GET /api/publishers/{id}` - Szczegóły
-- `PUT /api/publishers/{id}` - Aktualizacja
-- `DELETE /api/publishers/{id}` - Usunięcie
+- `PUT /api/publishers/{id}` - Aktualizacja (🔒)
+- `DELETE /api/publishers/{id}` - Usunięcie (🔒)
 
 ### Categories
 - `GET /api/categories` - Lista kategorii
-- `POST /api/categories` - Nowa kategoria
+- `POST /api/categories` - Nowa kategoria (🔒)
 - `GET /api/categories/{id|slug}` - Szczegóły
-- `PUT /api/categories/{id}` - Aktualizacja
-- `DELETE /api/categories/{id}` - Usunięcie
+- `PUT /api/categories/{id}` - Aktualizacja (🔒)
+- `DELETE /api/categories/{id}` - Usunięcie (🔒)
 
 ### Books
 - `GET /api/books` - Lista książek (z filtrami)
-- `POST /api/books` - Nowa książka
+- `POST /api/books` - Nowa książka (🔒)
 - `GET /api/books/{id}` - Szczegóły książki
-- `PUT /api/books/{id}` - Aktualizacja
-- `DELETE /api/books/{id}` - Usunięcie
+- `PUT /api/books/{id}` - Aktualizacja (🔒)
+- `DELETE /api/books/{id}` - Usunięcie (🔒)
 - `GET /api/books/lists/popular` - Popularne książki (cached)
 - `POST /api/books/search` - Zaawansowane wyszukiwanie
+
+**🔒 = Wymaga autoryzacji**
 
 ## Filtrowanie Books
 
