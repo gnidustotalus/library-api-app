@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             AuthorSeeder::class,
             PublisherSeeder::class,
             CategorySeeder::class,
-            BookSeeder::class, // Must be last due to foreign keys
+            BookSeeder::class,
+            UserSeeder::class,
         ]);
 
         $this->command->info('Library database seeded successfully!');
