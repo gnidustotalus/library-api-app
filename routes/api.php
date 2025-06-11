@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthorController;
+use App\Http\Controllers\Api\PublisherController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +20,49 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+/*
+|--------------------------------------------------------------------------
+| Public Library API Routes
+|--------------------------------------------------------------------------
+*/
+
+// Authors API
+Route::prefix('authors')->name('api.authors.')->group(function () {
+    Route::get('/', [AuthorController::class, 'index'])->name('index');
+    Route::post('/', [AuthorController::class, 'store'])->name('store');
+    Route::get('/{author}', [AuthorController::class, 'show'])->name('show');
+    Route::put('/{author}', [AuthorController::class, 'update'])->name('update');
+    Route::delete('/{author}', [AuthorController::class, 'destroy'])->name('destroy');
+});
+
+// Publishers API
+Route::prefix('publishers')->name('api.publishers.')->group(function () {
+    Route::get('/', [PublisherController::class, 'index'])->name('index');
+    Route::post('/', [PublisherController::class, 'store'])->name('store');
+    Route::get('/{publisher}', [PublisherController::class, 'show'])->name('show');
+    Route::put('/{publisher}', [PublisherController::class, 'update'])->name('update');
+    Route::delete('/{publisher}', [PublisherController::class, 'destroy'])->name('destroy');
+});
+
+// Categories API
+Route::prefix('categories')->name('api.categories.')->group(function () {
+    Route::get('/', [CategoryController::class, 'index'])->name('index');
+    Route::post('/', [CategoryController::class, 'store'])->name('store');
+    Route::get('/{category}', [CategoryController::class, 'show'])->name('show');
+    Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
+    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+});
+
+// Books API
+Route::prefix('books')->name('api.books.')->group(function () {
+    Route::get('/', [BookController::class, 'index'])->name('index');
+    Route::post('/', [BookController::class, 'store'])->name('store');
+    Route::get('/{book}', [BookController::class, 'show'])->name('show');
+    Route::put('/{book}', [BookController::class, 'update'])->name('update');
+    Route::delete('/{book}', [BookController::class, 'destroy'])->name('destroy');
+    
+    Route::get('/lists/popular', [BookController::class, 'popular'])->name('popular');
+    Route::post('/search', [BookController::class, 'search'])->name('search');
 });
