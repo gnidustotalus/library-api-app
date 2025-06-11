@@ -1,66 +1,101 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Library Management API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+REST API do zarządzania biblioteką z książkami, autorami, wydawcami i kategoriami. 
 
-## About Laravel
+## Wymagania
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **PHP** 8.1+
+- **MySQL** 8.0+
+- **Composer** 2.x
+- **Docker** (opcjonalnie)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalacja
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+# Instalacja zależności
+composer install
 
-## Learning Laravel
+# Konfiguracja środowiska
+cp .env.example .env
+php artisan key:generate
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Konfiguracja bazy danych w .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=library_db
+DB_USERNAME=root
+DB_PASSWORD=
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Migracje i seeders
+php artisan migrate --seed
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Uruchomienie
 
-## Laravel Sponsors
+```bash
+# Serwer deweloperski
+php artisan serve
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Lub z Docker
+docker-compose up -d
+```
 
-### Premium Partners
+API dostępne pod: `http://localhost:8000`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Endpointy
 
-## Contributing
+### Authors
+- `GET /api/authors` - Lista autorów
+- `POST /api/authors` - Nowy autor
+- `GET /api/authors/{id}` - Szczegóły autora
+- `PUT /api/authors/{id}` - Aktualizacja
+- `DELETE /api/authors/{id}` - Usunięcie
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Publishers
+- `GET /api/publishers` - Lista wydawców
+- `POST /api/publishers` - Nowy wydawca
+- `GET /api/publishers/{id}` - Szczegóły
+- `PUT /api/publishers/{id}` - Aktualizacja
+- `DELETE /api/publishers/{id}` - Usunięcie
 
-## Code of Conduct
+### Categories
+- `GET /api/categories` - Lista kategorii
+- `POST /api/categories` - Nowa kategoria
+- `GET /api/categories/{id|slug}` - Szczegóły
+- `PUT /api/categories/{id}` - Aktualizacja
+- `DELETE /api/categories/{id}` - Usunięcie
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Books
+- `GET /api/books` - Lista książek (z filtrami)
+- `POST /api/books` - Nowa książka
+- `GET /api/books/{id}` - Szczegóły książki
+- `PUT /api/books/{id}` - Aktualizacja
+- `DELETE /api/books/{id}` - Usunięcie
+- `GET /api/books/lists/popular` - Popularne książki (cached)
+- `POST /api/books/search` - Zaawansowane wyszukiwanie
 
-## Security Vulnerabilities
+## Filtrowanie Books
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+GET /api/books?search=harry&available_only=true&language=en&category=fiction&sort_by=title&per_page=10
+```
 
-## License
+## Zaawansowane wyszukiwanie
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+POST /api/books/search
+Content-Type: application/json
+
+{
+    "search": "Harry Potter",
+    "available_only": true,
+    "language": "en",
+    "category": "fantasy",
+    "author_id": 1,
+    "price_min": 10,
+    "price_max": 20,
+    "sort_by": "relevance"
+}
+```
+
